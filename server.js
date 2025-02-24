@@ -5,20 +5,21 @@ const mongoose = require('mongoose');
 port=5000;
 
 const app = express();
-const Schema = require('./schema');
+const Schema = require('./model/restaurantSchema');
+const restaurantSchema = require('./model/restaurantSchema');
 
 app.use(cors());
 
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://localhost:27017/schema', { useNewUrlParser: true });
+mongoose.connect('mongodb://localhost:27017/model/restaurantSchema', { useNewUrlParser: true });
 
-app.get('/api/schema', async (req, res) => {
+app.get('/api/restaurantSchema', async (req, res) => {
     const schema = await Schema.find();
     res.json(schema);
     });
 
-app.post('/api/schema', async (req, res) => {
+app.post('/api/restaurantSchema', async (req, res) => {
     const schema = new Schema({
         name: req.body.name,
         location: req.body.location,
@@ -31,7 +32,7 @@ app.post('/api/schema', async (req, res) => {
     res.json(schema);
 }
 );
-app.put('/api/schema/:id', async (req, res) => {
+app.put('/api/restaurantSchema/:id', async (req, res) => {
     const schema = await Schema.findById(req.params.id);
 
     schema.name = req.body.name;
@@ -44,7 +45,7 @@ app.put('/api/schema/:id', async (req, res) => {
     res.json(schema);
 });
 
-app.delete('/api/schema/:id', async (req, res) => {
+app.delete('/api/restaurantSchema/:id', async (req, res) => {
     const schema = await Schema.findById(req.params.id);
     await schema.remove();
     res.json({ message: 'Schema deleted' });
@@ -54,4 +55,5 @@ app.delete('/api/schema/:id', async (req, res) => {
 app.listen(5000, () => {
     console.log('Server is running on http://localhost:5000');
 });
+
 
